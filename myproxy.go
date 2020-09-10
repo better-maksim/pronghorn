@@ -9,7 +9,6 @@ import (
 	"os"
 	"os/signal"
 	"proxy/util"
-	"strings"
 )
 
 //代理服务 handler
@@ -23,7 +22,7 @@ func (*ProxyHandler) ServeHTTP(write http.ResponseWriter, request *http.Request)
 			log.Println(err)
 		}
 	}()
-	url, _ := url2.Parse(util.LB.SelectByIpWeight(strings.Split(request.RemoteAddr, ":")[0]).Host)
+	url, _ := url2.Parse(util.LB.RoundRobin().Host)
 	proxy := httputil.NewSingleHostReverseProxy(url)
 	proxy.ServeHTTP(write, request)
 	_, _ = write.Write([]byte("default index html"))

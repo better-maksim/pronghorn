@@ -1,13 +1,13 @@
 package util
 
 import (
-	"fmt"
 	"hash/crc32"
 	"math/rand"
 	"time"
 )
 
-type HttpServer struct { //目标 server
+//目标 server
+type HttpServer struct {
 	Host   string
 	Weight int
 }
@@ -16,8 +16,10 @@ func NewHttpServer(host string, weight int) *HttpServer {
 	return &HttpServer{Host: host, Weight: weight}
 }
 
-type LoadBalance struct { //负载均衡
-	Servers []*HttpServer
+//负载均衡
+type LoadBalance struct {
+	Servers      []*HttpServer
+	CurrentIndex int //指向当前访问的服务器
 }
 
 func NewLoadBalance() *LoadBalance {
@@ -55,8 +57,17 @@ func (this *LoadBalance) SelectByIpWeight(ip string) *HttpServer {
 	rad := rand.Intn(sum) //左臂右开区间
 	for index, value := range sumList {
 		if rad < value {
-			 return this.Servers[index]
+			return this.Servers[index]
 		}
 	}
 	return this.Servers[0]
+}
+
+func (this *LoadBalance) RoundRobin() *HttpServer {
+	server := this.Servers[this.CurrentIndex]
+	this.CurrentIndex++
+	if this.CurrentIndex >= len(this.Servers) {
+		this.CurrentIndex = 0
+	}
+	return server
 }

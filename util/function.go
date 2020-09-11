@@ -1,10 +1,10 @@
 package util
 
 import (
-	"fmt"
 	"io/ioutil"
 	"net"
 	"net/http"
+	"proxy/balance"
 	"time"
 )
 
@@ -40,19 +40,21 @@ func RequestUrl(write http.ResponseWriter, request *http.Request, url string) {
 	_, _ = write.Write(res)
 }
 
-var LB *LoadBalance
+var ServerList *Servers
+var Lb balance.LoadBalance
 var ServerIndexes []int
 
 func init() {
-	LB = NewLoadBalance()
-	LB.AddServer(NewHttpServer("http://localhost:9091", 5))
-	LB.AddServer(NewHttpServer("http://localhost:9092", 15))
-	for index, server := range LB.Servers {
+	ServerList = NewServers()
+	ServerList.AddServer(NewHttpServer("http://localhost:9091", 5))
+	ServerList.AddServer(NewHttpServer("http://localhost:9092", 15))
+	Lb = balance.LoadBalanceFactory(balance.LbRandom)
+	for index, server := range ServerList.Servers {
+		_ = Lb.Add(server.Host)
 		if server.Weight > 0 {
 			for i := 0; i < server.Weight; i++ {
 				ServerIndexes = append(ServerIndexes, index)
 			}
 		}
 	}
-	fmt.Println(LB.Servers)
 }

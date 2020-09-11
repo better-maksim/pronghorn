@@ -7,13 +7,13 @@ import (
 
 type RandomBalance struct {
 	curIndex int
-	rss [] string
+	rss      [] string
 	//观察者模式
 	//conf LoadBalanceConf
 }
 
-func (this *RandomBalance) Add (params ...string) error {
-	if len(params) == 0{
+func (this *RandomBalance) Add(params ...string) error {
+	if len(params) == 0 {
 		return errors.New("param len 1 at least")
 	}
 	addr := params[0]
@@ -21,7 +21,7 @@ func (this *RandomBalance) Add (params ...string) error {
 	return nil
 }
 
-func (this * RandomBalance) Next() string  {
+func (this *RandomBalance) Next() string {
 	if len(this.rss) == 0 {
 		return ""
 	}
@@ -29,7 +29,6 @@ func (this * RandomBalance) Next() string  {
 	return this.rss[this.curIndex]
 }
 
-func (this * RandomBalance) Get (key string) (string, error) {
+func (this *RandomBalance) Get(key string) (string, error) {
 	return this.Next(), nil
 }
-

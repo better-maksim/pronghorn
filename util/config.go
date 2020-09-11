@@ -28,5 +28,4 @@ func init() {
 			}
 		}
 	}
-	fmt.Println(ProxyConfigs)
 }

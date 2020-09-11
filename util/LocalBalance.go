@@ -13,6 +13,18 @@ type HttpServer struct {
 	Weight int
 }
 
+
+type LbType struct {
+
+}
+func LoadBalanceFactory(lbType LbType) LoadBalance {
+	switch LbType {
+	case LBRand:
+
+
+	}
+}
+
 func NewHttpServer(host string, weight int) *HttpServer {
 	return &HttpServer{Host: host, Weight: weight}
 }

@@ -69,6 +69,7 @@ func NewMultipleHostReverseProxy(lb balance.LoadBalance) *httputil.ReverseProxy 
 }
 
 func singleJoiningSlash(a, b string) string {
+	//合并路径
 	aslash := strings.HasSuffix(a, "/")
 	bslash := strings.HasPrefix(b, "/")
 	switch {

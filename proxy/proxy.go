@@ -3,16 +3,41 @@ package proxy
 import (
 	"bytes"
 	"io/ioutil"
+	"log"
+	"net"
 	"net/http"
 	"net/http/httputil"
 	"net/url"
+	"proxy/balance"
 	"strconv"
 	"strings"
+	"time"
 )
 
-func NewSingleHostReverseProxy(target *url.URL) *httputil.ReverseProxy {
-	targetQuery := target.RawQuery
+//连接池
+var transport = &http.Transport{
+	DialContext: (&net.Dialer{
+		Timeout:   30 * time.Second, //连接超时
+		KeepAlive: 30 * time.Second, //长连接超时时间
+	}).DialContext,
+	MaxIdleConns:          100,              //最大空闲连接
+	IdleConnTimeout:       90 * time.Second, //空闲超时时间
+	TLSHandshakeTimeout:   10 * time.Second, //tls握手超时时间
+	ExpectContinueTimeout: 1 * time.Second,  //100-continue超时时间
+}
+
+func NewMultipleHostReverseProxy(lb balance.LoadBalance) *httputil.ReverseProxy {
+
 	director := func(req *http.Request) {
+		addr, err := lb.Get(strings.Split(req.RemoteAddr, ":")[0])
+		if err != nil {
+			log.Fatal("get next addr fail")
+		}
+		target, err := url.Parse(addr)
+		if err != nil {
+			log.Fatal(err)
+		}
+		targetQuery := target.RawQuery
 		req.URL.Scheme = target.Scheme
 		req.URL.Host = target.Host
 		req.URL.Path = singleJoiningSlash(target.Path, req.URL.Path)
@@ -29,17 +54,18 @@ func NewSingleHostReverseProxy(target *url.URL) *httputil.ReverseProxy {
 	modifyFunc := func(resp *http.Response) error {
 		if resp.StatusCode != 200 {
 			//获取内容
-			oldPayload ,err := ioutil.ReadAll(resp.Body)
+			oldPayload, err := ioutil.ReadAll(resp.Body)
 			if err != nil {
 				return err
 			}
 			newPayload := []byte("StatusCode error:" + string(oldPayload))
 			resp.Body = ioutil.NopCloser(bytes.NewBuffer(newPayload))
 			resp.ContentLength = int64(len(newPayload))
-			resp.Header.Set("Content-lenght", strconv.FormatInt(int64(len(newPayload)), 10))
+			resp.Header.Set("Content-Length", strconv.FormatInt(int64(len(newPayload)), 10))
 		}
+		return nil
 	}
-	return &httputil.ReverseProxy{Director: director,ModifyResponse:modifyFunc}
+	return &httputil.ReverseProxy{Director: director, ModifyResponse: modifyFunc}
 }
 
 func singleJoiningSlash(a, b string) string {

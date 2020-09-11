@@ -4,12 +4,10 @@ import (
 	"fmt"
 	"log"
 	"net/http"
-	"net/http/httputil"
-	url2 "net/url"
 	"os"
 	"os/signal"
+	proxy2 "proxy/proxy"
 	"proxy/util"
-	"strings"
 )
 
 //代理服务 handler
@@ -23,9 +21,7 @@ func (*ProxyHandler) ServeHTTP(write http.ResponseWriter, request *http.Request)
 			log.Println(err)
 		}
 	}()
-	lbString, _ := util.Lb.Get(strings.Split(request.RemoteAddr, ":")[0])
-	url, _ := url2.Parse(lbString)
-	proxy := httputil.NewSingleHostReverseProxy(url)
+	proxy := proxy2.NewMultipleHostReverseProxy(util.Lb)
 	proxy.ServeHTTP(write, request)
 	_, _ = write.Write([]byte("default index html"))
 }

@@ -1,6 +1,7 @@
 package util
 
 import (
+	"fmt"
 	"hash/crc32"
 	"math/rand"
 	"time"
@@ -50,7 +51,7 @@ func (this *LoadBalance) SelectByIpWeight(ip string) *HttpServer {
 	sumList := make([]int, len(this.Servers))
 	sum := 0
 
-	for i = 0; i < len(this.Servers); i++ {
+	for i := 0; i < len(this.Servers); i++ {
 		sum += this.Servers[i].Weight
 		sumList[i] = sum
 	}
@@ -65,9 +66,7 @@ func (this *LoadBalance) SelectByIpWeight(ip string) *HttpServer {
 
 func (this *LoadBalance) RoundRobin() *HttpServer {
 	server := this.Servers[this.CurrentIndex]
-	this.CurrentIndex++
-	if this.CurrentIndex >= len(this.Servers) {
-		this.CurrentIndex = 0
-	}
+	this.CurrentIndex = (this.CurrentIndex + 1) % len(this.Servers)
+	fmt.Println(this.CurrentIndex)
 	return server
 }

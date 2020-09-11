@@ -64,6 +64,7 @@ func main() {
 		fmt.Println(err)
 		panic(err)
 	})()
+
 	signal.Notify(c, os.Interrupt)
 	s := <-c
 	fmt.Println(s)

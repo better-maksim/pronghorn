@@ -42,16 +42,17 @@ func RequestUrl(write http.ResponseWriter, request *http.Request, url string) {
 
 var LB *LoadBalance
 var ServerIndexes []int
-func init()  {
+
+func init() {
 	LB = NewLoadBalance()
 	LB.AddServer(NewHttpServer("http://localhost:9091", 5))
-	LB.AddServer(NewHttpServer("http://localhost:9092",15))
-	for index,server := range LB.Servers  {
+	LB.AddServer(NewHttpServer("http://localhost:9092", 15))
+	for index, server := range LB.Servers {
 		if server.Weight > 0 {
-			for i :=0; i < server.Weight; i++ {
+			for i := 0; i < server.Weight; i++ {
 				ServerIndexes = append(ServerIndexes, index)
 			}
 		}
 	}
-	fmt.Println(ServerIndexes)
+	fmt.Println(LB.Servers)
 }

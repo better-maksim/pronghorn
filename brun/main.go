@@ -3,7 +3,7 @@ package main
 import (
 	"github.com/tietang/props/ini"
 	"github.com/tietang/props/kvs"
-	"proxy"
+	boot2 "proxy/boot"
 )
 
 func main() {
@@ -12,6 +12,6 @@ func main() {
 	file := kvs.GetCurrentFilePath("conf.ini", 1)
 	//加载配置文件
 	conf := ini.NewIniFileCompositeConfigSource(file)
-	boot := proxy.NewBootApplication(conf)
+	boot := boot2.NewBootApplication(conf)
 	boot.Start()
 }

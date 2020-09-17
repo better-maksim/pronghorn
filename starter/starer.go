@@ -1,4 +1,4 @@
-package infra
+package starter
 
 import (
 	log "github.com/sirupsen/logrus"

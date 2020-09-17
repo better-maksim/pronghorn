@@ -1,6 +1,7 @@
 package balance
 
 type LbType int
+
 const (
 	LbRandom LbType = iota
 	LbRoundRobin
@@ -9,15 +10,15 @@ const (
 )
 
 type LoadBalance interface {
-	Add (...string) error
+	Add(...string) error
 	Get(string) (string, error)
 	//服务发现
 	//Update()
 }
 
-func LoadBalanceFactory(lbType LbType) LoadBalance  {
+func LoadBalanceFactory(lbType LbType) LoadBalance {
 	switch lbType {
-	case LbRandom :
+	case LbRandom:
 		return &RandomBalance{}
 	case LbConsistentHash:
 		return &IPHshBalance{}

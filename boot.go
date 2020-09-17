@@ -1,4 +1,4 @@
-package util
+package proxy
 
 import (
 	log "github.com/sirupsen/logrus"
@@ -15,7 +15,7 @@ type BootApplication struct {
 }
 
 //构造系统
-func New(conf kvs.ConfigSource) *BootApplication {
+func NewBootApplication(conf kvs.ConfigSource) *BootApplication {
 	e := &BootApplication{conf: conf, starterCtx: starter.StarterContext{}}
 	e.starterCtx.SetProps(conf)
 	return e

@@ -1,13 +1,9 @@
 package starter
 
 import (
-	"github.com/tietang/props/ini"
+	log "github.com/sirupsen/logrus"
 	"github.com/tietang/props/kvs"
 )
-
-type PropsStarter struct {
-	BaseStarter
-}
 
 var props kvs.ConfigSource
 
@@ -15,6 +11,19 @@ func Props() kvs.ConfigSource {
 	return props
 }
 
-func (this *PropsStarter) Init(ctx StarterContext) {
-	props = ini.NewIniFileCompositeConfigSource("config.ini")
+type PropsStarter struct {
+	BaseStarter
+}
+
+func (p *PropsStarter) Init(ctx StarterContext) {
+	props = ctx.Props()
+	log.Info("初始化配置.")
+
+}
+
+type SystemAccount struct {
+	AccountNo   string
+	AccountName string
+	UserId      string
+	Username    string
 }

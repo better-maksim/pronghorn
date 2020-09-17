@@ -80,3 +80,19 @@ func singleJoiningSlash(a, b string) string {
 	}
 	return a + b
 }
+
+type ProxyHandler struct {
+	Lb balance.LoadBalance
+}
+
+func (this *ProxyHandler) ServeHTTP(write http.ResponseWriter, request *http.Request) {
+	defer func() {
+		if err := recover(); err != nil {
+			write.WriteHeader(500)
+			log.Println(err)
+		}
+	}()
+	proxy := NewMultipleHostReverseProxy(this.Lb)
+	proxy.ServeHTTP(write, request)
+	_, _ = write.Write([]byte("default index html"))
+}

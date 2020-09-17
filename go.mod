@@ -23,5 +23,6 @@ require (
 	github.com/tietang/props v2.2.0+incompatible
 	github.com/valyala/fasttemplate v1.2.1 // indirect
 	github.com/x-cray/logrus-prefixed-formatter v0.5.2
+	golang.org/x/time v0.0.0-20200630173020-3af7569d3a1e // indirect
 	gopkg.in/ini.v1 v1.61.0 // indirect
 )

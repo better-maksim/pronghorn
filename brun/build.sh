@@ -14,3 +14,16 @@ build() {
 GOOS=darwin
 GOARCH=amd64
 build
+
+#linux
+GOOS=linux
+GOARCH=amd64
+build
+
+#windows
+GOOS=windows
+GOARCH=amd64
+build
+
+GOARCH=386
+build

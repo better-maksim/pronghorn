@@ -15,7 +15,7 @@ type webOneHandler struct {
 type webTwoHandler struct {
 }
 
-//获取真实 ip
+// GetIP 获取真实 ip
 func (*webOneHandler) GetIP(request *http.Request) string {
 	ips := request.Header.Get("r-forwarded-for")
 	if ips != "" {

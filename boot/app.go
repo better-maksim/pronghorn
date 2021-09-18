@@ -9,5 +9,3 @@ func init() {
 	starter.Register(&starter.ProxyStarter{})
 
 }
-
-

@@ -8,7 +8,7 @@ import (
 // IPHshBalance  Hash 算法
 type IPHshBalance struct {
 	curIndex int
-	rss      [] string
+	rss      []string
 	//观察者模式
 	//conf LoadBalanceConf
 }

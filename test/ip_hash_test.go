@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestIpHashBalance(t *testing.T)  {
+func TestIpHashBalance(t *testing.T) {
 	rb := balance.IPHshBalance{}
 	rb.Add("127.0.0.1:2003")
 	rb.Add("127.0.0.1:2004")

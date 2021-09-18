@@ -16,7 +16,7 @@ type webTwoHandler struct {
 }
 
 //获取真实 ip
-func (* webOneHandler) GetIP(request *http.Request) string {
+func (*webOneHandler) GetIP(request *http.Request) string {
 	ips := request.Header.Get("r-forwarded-for")
 	if ips != "" {
 		ipsList := strings.Split(ips, ",")
@@ -38,7 +38,7 @@ func (this webOneHandler) ServeHTTP(writer http.ResponseWriter, request *http.Re
 	if len(authList) == 2 && authList[0] == "Basic" {
 		res, err := base64.StdEncoding.DecodeString(authList[1])
 		if err == nil && string(res) == "123:123" {
-			html := fmt.Sprintf("<h1>web one ! 来自于%s</h1>",this.GetIP(request))
+			html := fmt.Sprintf("<h1>web one ! 来自于%s</h1>", this.GetIP(request))
 			_, _ = writer.Write([]byte(html))
 			return
 		}

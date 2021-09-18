@@ -26,7 +26,7 @@ func (b *RoundRobinBalance) Next() string {
 	}
 	lens := len(b.rss)
 	if b.curIndex >= lens {
-		b.curIndex = 0;
+		b.curIndex = 0
 	}
 	curAddr := b.rss[b.curIndex]
 	b.curIndex = (b.curIndex + 1) % lens

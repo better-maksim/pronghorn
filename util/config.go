@@ -14,11 +14,11 @@ func init() {
 	ProxyConfigs = make(map[string]string)
 	EnvConfig, err := ini.Load("conf.ini")
 	if err != nil {
-		 fmt.Println(err)
+		fmt.Println(err)
 		return
 	}
-	proxy, _:= EnvConfig.GetSection("proxy")
-	if proxy != nil{
+	proxy, _ := EnvConfig.GetSection("proxy")
+	if proxy != nil {
 		secs := proxy.ChildSections()
 		for _, sec := range secs {
 			path, _ := sec.GetKey("path")

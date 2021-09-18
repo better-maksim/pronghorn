@@ -8,7 +8,7 @@ import (
 //RandomBalance 随机算法
 type RandomBalance struct {
 	curIndex int
-	rss      [] string
+	rss      []string
 	//观察者模式
 	//conf LoadBalanceConf
 }

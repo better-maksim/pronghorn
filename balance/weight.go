@@ -5,6 +5,7 @@ import (
 	"strconv"
 )
 
+// WeightNode 权重
 type WeightNode struct {
 	addr            string
 	weight          int //权重值
@@ -19,7 +20,7 @@ type WeightRoundRobinBalance struct {
 	//conf LoadBalanceConf
 }
 
-func (this *WeightRoundRobinBalance) Add(params ...string) error {
+func (b *WeightRoundRobinBalance) Add(params ...string) error {
 	if len(params) == 0 {
 		return errors.New("param len 1 at least")
 	}
@@ -29,18 +30,18 @@ func (this *WeightRoundRobinBalance) Add(params ...string) error {
 	}
 	node := &WeightNode{addr: params[0], weight: int(parInt)}
 	node.effectiveWeight = node.weight
-	this.rss = append(this.rss, node)
+	b.rss = append(b.rss, node)
 	return nil
 }
 
-func (this *WeightRoundRobinBalance) Next() string {
+func (b *WeightRoundRobinBalance) Next() string {
 
 	total := 0
 	var best *WeightNode
 
-	for i := 0; i < len(this.rss); i++ {
+	for i := 0; i < len(b.rss); i++ {
 
-		w := this.rss[i]
+		w := b.rss[i]
 		//step 1 统计所有有效权重之和
 		total += w.effectiveWeight
 		//step 2 变更节点节点临时权重+节点有效权重
@@ -62,6 +63,6 @@ func (this *WeightRoundRobinBalance) Next() string {
 	return best.addr
 }
 
-func (this *WeightRoundRobinBalance) Get(key string) (string, error) {
-	return this.Next(), nil
+func (b *WeightRoundRobinBalance) Get(key string) (string, error) {
+	return b.Next(), nil
 }

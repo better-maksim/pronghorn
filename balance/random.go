@@ -5,6 +5,7 @@ import (
 	"math/rand"
 )
 
+//RandomBalance 随机算法
 type RandomBalance struct {
 	curIndex int
 	rss      [] string
@@ -12,23 +13,23 @@ type RandomBalance struct {
 	//conf LoadBalanceConf
 }
 
-func (this *RandomBalance) Add(params ...string) error {
+func (b *RandomBalance) Add(params ...string) error {
 	if len(params) == 0 {
 		return errors.New("param len 1 at least")
 	}
 	addr := params[0]
-	this.rss = append(this.rss, addr)
+	b.rss = append(b.rss, addr)
 	return nil
 }
 
-func (this *RandomBalance) Next() string {
-	if len(this.rss) == 0 {
+func (b *RandomBalance) Next() string {
+	if len(b.rss) == 0 {
 		return ""
 	}
-	this.curIndex = rand.Intn(len(this.rss))
-	return this.rss[this.curIndex]
+	b.curIndex = rand.Intn(len(b.rss))
+	return b.rss[b.curIndex]
 }
 
-func (this *RandomBalance) Get(key string) (string, error) {
-	return this.Next(), nil
+func (b *RandomBalance) Get(key string) (string, error) {
+	return b.Next(), nil
 }

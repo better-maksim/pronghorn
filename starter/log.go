@@ -2,13 +2,6 @@ package starter
 
 import (
 	"fmt"
-	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
-	"github.com/mattn/go-colorable"
-	"github.com/rifflock/lfshook"
-	log "github.com/sirupsen/logrus"
-	"github.com/tietang/go-utils"
-	"github.com/tietang/props/kvs"
-	prefixed "github.com/x-cray/logrus-prefixed-formatter"
 	"io"
 	"os"
 	"path"
@@ -16,6 +9,14 @@ import (
 	"runtime"
 	"strings"
 	"time"
+
+	rotatelogs "github.com/lestrrat/go-file-rotatelogs"
+	"github.com/mattn/go-colorable"
+	"github.com/rifflock/lfshook"
+	log "github.com/sirupsen/logrus"
+	"github.com/tietang/go-utils"
+	"github.com/tietang/props/kvs"
+	prefixed "github.com/x-cray/logrus-prefixed-formatter"
 )
 
 var formatter *prefixed.TextFormatter

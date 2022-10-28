@@ -1,4 +1,4 @@
-module proxy
+module pronghorn
 
 go 1.13
 

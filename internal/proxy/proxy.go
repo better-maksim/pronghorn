@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"net/http/httputil"
 	"net/url"
-	"pronghorn/pkg/balance"
+	"pronghorn/internal/balance"
 	"strconv"
 	"strings"
 	"time"

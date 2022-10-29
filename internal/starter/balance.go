@@ -1,7 +1,7 @@
 package starter
 
 import (
-	"pronghorn/pkg/balance"
+	balance2 "pronghorn/internal/balance"
 )
 
 type LBStarter struct {
@@ -9,14 +9,14 @@ type LBStarter struct {
 }
 
 var ServerIndexes []int
-var ServerList *balance.Servers
-var Lb balance.LoadBalance
+var ServerList *balance2.Servers
+var Lb balance2.LoadBalance
 
 func (this *LBStarter) Init(ctx StarterContext) {
-	ServerList = balance.NewServers()
-	ServerList.AddServer(balance.NewHttpServer("http://localhost:9091", 5))
-	ServerList.AddServer(balance.NewHttpServer("http://localhost:9092", 15))
-	Lb = balance.LoadBalanceFactory(balance.LbRandom)
+	ServerList = balance2.NewServers()
+	ServerList.AddServer(balance2.NewHttpServer("http://localhost:9091", 5))
+	ServerList.AddServer(balance2.NewHttpServer("http://localhost:9092", 15))
+	Lb = balance2.LoadBalanceFactory(balance2.LbRandom)
 	for index, server := range ServerList.Servers {
 		_ = Lb.Add(server.Host)
 		if server.Weight > 0 {

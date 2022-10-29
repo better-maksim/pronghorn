@@ -3,7 +3,7 @@ package starter
 import (
 	log "github.com/sirupsen/logrus"
 	"net/http"
-	"pronghorn/pkg/proxy"
+	"pronghorn/internal/proxy"
 )
 
 type ProxyStarter struct {

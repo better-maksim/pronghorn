@@ -3,7 +3,7 @@ package boot
 import (
 	log "github.com/sirupsen/logrus"
 	"github.com/tietang/props/kvs"
-	"pronghorn/pkg/starter"
+	"pronghorn/internal/starter"
 	"reflect"
 )
 

@@ -1,7 +1,7 @@
 package boot
 
 import (
-	starter2 "pronghorn/internal/starter"
+	starter2 "pronghorn/pkg/starter"
 )
 
 func init() {

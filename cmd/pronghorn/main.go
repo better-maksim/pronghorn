@@ -3,7 +3,7 @@ package main
 import (
 	log "github.com/sirupsen/logrus"
 	"os"
-	"pronghorn/internal/cli"
+	"pronghorn/pkg/cli"
 )
 
 func main() {
